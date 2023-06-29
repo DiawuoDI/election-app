@@ -1,19 +1,15 @@
 {
-  "name": "election-app",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "node server.js",
+    "generate": "npx prisma generate"
   },
-  "author": "",
-  "license": "ISC",
   "dependencies": {
-    "@prisma/client": "^4.16.0",
+    "@prisma/client": "^4.16.1",
     "body-parser": "^1.20.2",
     "express": "^4.18.2",
     "mongodb": "^5.6.0",
-    "prisma": "^4.16.0"
+    "prisma": "^4.16.1",
+    "yarn": "^1.22.19"
   }
 }
