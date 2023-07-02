@@ -24,7 +24,7 @@ model voters {
 
 model candidates {
   id            String     @id @default(auto()) @map("_id") @db.ObjectId
-  candidateName String
+  candidateName String     @unique
   telephone     String?
   profile       String?
   positions     positions? @relation(fields: [positionsId], references: [id])
@@ -37,7 +37,7 @@ model candidates {
 
 model positions {
   id           String   @id @default(auto()) @map("_id") @db.ObjectId
-  positionName String
+  positionName String   @unique
   description  String?
   del_flag     Boolean  @default(false)
   createdAt    DateTime @default(now())

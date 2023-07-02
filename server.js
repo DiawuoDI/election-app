@@ -4,10 +4,15 @@ const bodyparser =require("body-parser")
 const PORT =process.env.PORT || 8080;
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
+const cors =require('cors');
+require("dotenv/config")
+
+app.use(cors({origin: true, credentials: true}));
 // const { MongoClient } = require('mongodb');
 const appRoutes = require("./routes/index");
 app.use(bodyparser.json());
 app.use("/api",appRoutes);
+
 // const uri = 'mongodb+srv://DiawuoDivine:DiawuoDivine@cluster0.q22x65d.mongodb.net/election-app?retryWrites=true&w=majority';
 // async function connectToMongo() {
 //   // const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
