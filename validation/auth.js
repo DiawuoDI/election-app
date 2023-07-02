@@ -3,9 +3,9 @@ const prisma = new PrismaClient();
 
 const checkEmailExists = async (req, res, next) =>{
     const email = req.body.email;
-    const voter = await prisma.voters.findFirst({
+    const voters = await prisma.voters.findFirst({
       where: {
-        Email,
+        email,
     },
 });
 if (!voters) {

@@ -3,10 +3,10 @@ const voterRouter = Router();
 const voter = require("../controllers/voters");
 const validation = require("../validation/voters");
 const verification = require("../verification/verify");
-
+const autentication = require("../validation/auth")
 voterRouter.post("/", validation.checkVoterExists, voter.createVoter);
 
-voterRouter.get("/login/", voter.login);
+voterRouter.get("/login/",autentication.checkEmailExists, voter.login);
 
 voterRouter.get("/", verification.verifyToken, voter.getAllVoters);
 
