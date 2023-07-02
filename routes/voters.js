@@ -4,16 +4,17 @@ const voterRouter = Router();
 const voter = require("../controllers/voters");
 const validation = require("../validation/voters");
 
-voterRouter.get("/", voter.getVotersById);
 
-voterRouter.post("/",validation.checkVoterExists, voter.createVotersFunc);
+voterRouter.post("/",validation.checkVoterExists, voter.createVoter);
 
-voterRouter.get("/:studentsId",voter.getAllVoters);
+voterRouter.get("/login/",voter.login);
 
-voterRouter.get("/:id", voter.getVotersById);
+voterRouter.get("/",voter.getAllVoters);
 
-voterRouter.delete("/", voter.removeVotersById);
+voterRouter.get("/:studentId", voter.getVotersById);
 
-voterRouter.patch('/',voter.updateVotersFuc);
+voterRouter.delete("/", voter.deleteVoter);
+
+voterRouter.patch('/',voter.updateVoter);
 
 module.exports = voterRouter

@@ -1,54 +1,85 @@
 const { PrismaClient } = require("@prisma/client");
-const prisma = new PrismaClient();
+const { signToken } = require("../uitls/token");
 
-const createVotersFunc = async (req, res, next) => {
-    try {
-       const data = req.body;
+const prisma = new PrismaClient();
+const login = async (req, res, next) => {
+  try {
+    const email = req.body.email;
+    const password = req.body.password;
+    const voters = await prisma.voters.findFirst({
+      where: {
+        email,
+        password,
+      },
+    });
+    console.log(voters)
+    if (!voters) {
+      return res.status(422).json({
+        message: "Invalid Password",
+      });
+    } else {
+      const token = signToken(voters.studentId)
+      res.status(200).json({
+        token
+      })
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({
+      message: error.message,
+    });
+  }
+};
+const createVoter = async (req, res, next) => {
+  try {
+    const data = req.body;
     const voters = await prisma.voters.create({
       data,
     });
     res.status(201).json({
       voters,
     });
-    } catch (error) {
-        console.log(error)
-    }
-  };
-
-
+  } catch (error) {
+    console.log(error);
+    res.status(422).json({
+      message: error.message,
+    });
+  }
+};
 const getAllVoters = async (req, res, next) => {
-    try {
-      const data = req.body;
-      const voters = await prisma.voters.findMany({
-        data,
-      });
-      res.status(201).json({
-        voters,
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  const getVotersById = async (req, res, next) => {
-    try {
-      const id = req.params.id;
-      const voters = await prisma.voters.findUnique({
-        where: {
-          id,
-        },
-      });
-      res.status(200).json({
-        voters,
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const updateVotersFuc = async (req, res, next) => {
-    try{
+  try {
+    const voters = await prisma.voters.findMany({});
+    res.status(200).json({
+      voters,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({
+      message: error.message,
+    });
+  }
+};
+const getVotersById = async (req, res, next) => {
+  try {
+    const studentId = req.params.studentId;
+    const voter = await prisma.voters.findFirst({
+      where: {
+        studentId: studentId,
+      },
+    });
+    res.status(200).json(voter);
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({
+      message: error.message,
+    });
+  }
+};
+const updateVoter = async (res, req, next) => {
+  try {
+    const studentId = req.params.studentId;
     const data = req.body;
-    const voters = await prisma.voters.patch({
+    const voters = await prisma.voters.update({
       where: {
         studentId,
       },
@@ -57,33 +88,42 @@ const getAllVoters = async (req, res, next) => {
     res.status(200).json({
       voters,
     });
-   } catch (error) {
-    console.log(error)
-   }
-  };
-
-  const  removeVotersById = async(req,res,next)=>{
-    const data = req.body;
-    const id = req.params.id;
-    try {
-      const voters = await prisma.voters.delete({
-        where: {
-          studentId,
-        },
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({
+      message: error.message,
+    });
+  }
+};
+const deleteVoter = async (req, res, next) => {
+  const studentId = req.params.studentId;
+  try {
+    const deletedVoter = await prisma.voters.delete({
+      where: {
+        studentId,
+      },
+    });
+    if (deletedVoter) {
+      res.status(200).json({
+        message: "Voter deleted successfully",
       });
-      res.status(404).json(voters);
-    } catch (error) {
-      console.log(error);
+    } else {
+      res.status(404).json({
+        message: "Voter not found",
+      });
     }
-}
-
-
-
-
-  module.exports = {
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      message: "An error occurred",
+    });
+  }
+};
+module.exports = {
   getAllVoters,
   getVotersById,
-  createVotersFunc,
-  updateVotersFuc,
-  removeVotersById
-  };
+  createVoter,
+  updateVoter,
+  deleteVoter,
+  login,
+};
