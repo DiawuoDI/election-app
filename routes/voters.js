@@ -6,11 +6,11 @@ const validation = require("../validation/voters");
 const verification = require("../verification/verify");
 const autentication = require("../validation/auth")
 
-votersRouter.post("/", validation.checkVoterExists, voter.createVoter);
-votersRouter.get("/login/",autentication.checkEmailExists, voter.login);
-votersRouter.get("/", verification.verifyToken, voter.getAllVoters);
-votersRouter.get("/:studentId", verification.verifyToken, voter.getVotersById);
-votersRouter.delete("/", verification.verifyToken, voter.deleteVoter);
-votersRouter.patch("/", verification.verifyToken, voter.updateVoter);
+voterRouter.post("/", validation.checkVoterExists, voter.createVoter);
+voterRouter.get("/login/",autentication.checkEmailExists, voter.login);
+voterRouter.get("/", verification.verifyToken, voter.getAllVoters);
+voterRouter.get("/:studentId", verification.verifyToken, voter.getVotersById);
+voterRouter.delete("/", verification.verifyToken, voter.deleteVoter);
+voterRouter.patch("/", verification.verifyToken, voter.updateVoter);
 
 module.exports = voterRouter;
