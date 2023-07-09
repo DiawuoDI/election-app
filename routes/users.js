@@ -3,9 +3,6 @@ const userRouter = Router();
 
 const user = require("../controllers/users");
 const validation = require("../validation/users");
-
-const user = require("../controllers/users");
-const validation = require("../validation/users");
 const verification = require("../verification/verify");
 const autentication = require("../validation/auth")
 
@@ -17,4 +14,4 @@ userRouter.delete("/", verification.verifyToken, user.deleteUser);
 userRouter.patch("/", verification.verifyToken, user.updateUser);
 
 
-module.exports = usersRouter;
+module.exports = userRouter;
