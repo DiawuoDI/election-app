@@ -75,6 +75,7 @@ const getAllPositions = async (req, res, next) => {
         where: {
           id,
         },
+        data,
       });
       res.status(404).json(positions);
     } catch (error) {

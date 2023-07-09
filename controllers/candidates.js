@@ -36,7 +36,7 @@ const createCandidateFunc = async (req, res, next) => {
 
   const getCandidateFunc = async (req, res, next) => {
     try {
-        const id = (req.params.id)
+  
        const data = req.body;
     const candidates = await prisma.candidates.getAll({
       data,
@@ -56,8 +56,9 @@ const createCandidateFunc = async (req, res, next) => {
     const data = req.body;
     const candidate = await prisma.candidate.findUnique({
       where: {
-        positionId,
+        id,
       },
+      data
     });
     res.status(200).json({
       candidate,
@@ -66,15 +67,12 @@ const createCandidateFunc = async (req, res, next) => {
         console.log(error)
         next(new HttpException(422, error.message))
     }
-    }
+    };
   const updateCandidateFunc = async (req, res, next) => {
     try{
     const data = req.body;
     const candidates = await prisma.candidates.patch({
-      where: {
-        positionId,
-      },
-  
+      
       data,
     });
     res.status(200).json({
@@ -94,28 +92,30 @@ const createCandidateFunc = async (req, res, next) => {
         where: {
           positionId,
         },
+        data
       });
       res.json(candidate);
     } catch (error) {
       console.log(error);
       next(new HttpException(422, error.message))
     }
-}
+};
 const  removeCandidateById = async(req,res,next)=>{
     const data = req.body;
-    const id = req.params.id;
+    const candidateId = req.params.candidateId;
     try {
       const candidate = await prisma.candidates.delete({
         where: {
           candidateId,
         },
+        data
       });
       res.status(404).json(candidate);
     } catch (error) {
       console.log(error);
       next(new HttpException(422, error.message))
     }
-}
+};
   
 
 
@@ -127,7 +127,7 @@ const  removeCandidateById = async(req,res,next)=>{
     removeCandidateById,
     getCandidateByPositionId,
     getSingleCandidate
-}
+};
 
 
 

@@ -40,9 +40,7 @@ const createVoter = async (req, res, next) => {
     });
   } catch (error) {
     console.log(error);
-    res.status(422).json({
-      message: error.message,
-    });
+    next(new HttpException(422, error.message))
   }
 };
 const getAllVoters = async (req, res, next) => {

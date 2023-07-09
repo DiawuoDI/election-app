@@ -1,5 +1,6 @@
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
+const HttpException = require("../validation/http-exception");
 
 const addVoting = async (req, res, next) => {
   try {
@@ -13,9 +14,7 @@ const addVoting = async (req, res, next) => {
     });
   } catch (error) {
     console.log(error);
-    res.status(422).json({
-      message: error.message,
-    });
+    next(new HttpException(422, error.message))
   }
 };
 const getVotes = async (req, res, next) => {
@@ -26,9 +25,7 @@ const getVotes = async (req, res, next) => {
     });
   } catch (error) {
     console.log(error);
-    res.status(400).json({
-        message: error.message,
-      });
+    next(new HttpException(422, error.message))
     }
   };
   module.exports = {

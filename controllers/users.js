@@ -86,12 +86,14 @@ const login = async (req, res, next) => {
             Id
         },
         data
-    });  
+    });
+    res.status(200).json({
+      user,
+    });
+    
     } catch (error) {
       console.log(error);
-      res.status(400).json({
-        message: error.message,
-      })  
+      next(new HttpException(422, error.message)); 
     }
  };
 

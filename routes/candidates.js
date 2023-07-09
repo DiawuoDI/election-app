@@ -8,13 +8,9 @@ const upload = multer({ dest: 'uploads/'})
 
 
 candidateRouter.post("/",upload.single('profile'),validation.checkCandidateExists, candidate.createCandidateFunc);
-
 candidateRouter.get("/:positionId",candidate.getCandidateByPositionId);
-
 candidateRouter.get("/:id", candidate.getSingleCandidate);
-
 candidateRouter.delete("/", candidate.removeCandidateById);
-
 candidateRouter.patch('/',candidate.updateCandidateFunc);
 
 module.exports = candidateRouter
