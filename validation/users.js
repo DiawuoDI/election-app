@@ -2,14 +2,14 @@ const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 const HttpException = require("../validation/http-exception");
 
-const  checkVoterExists = async(req,res,next)=> {
-    const studentId = req.body.studentId;
-const voter = await prisma.voters.findUnique({
+const  checkUserExists = async(req,res,next)=> {
+    const Id = req.body.Id;
+const user = await prisma.users.findUnique({
     where: {
-        studentId,
+        Id,
       }
 })
-if (voter) {
+if (user) {
      return       next(new HttpException(422, error.message))
 
     }
@@ -19,5 +19,5 @@ else {
 }
 
 module.exports ={
-  checkVoterExists
-}
+  checkUserExists
+};

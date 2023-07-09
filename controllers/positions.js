@@ -1,4 +1,5 @@
 const { PrismaClient } = require("@prisma/client");
+const HttpException = require("../validation/http-exception");
 const prisma = new PrismaClient();
 
 const createPositionsFunc = async (req, res, next) => {
@@ -12,6 +13,7 @@ const createPositionsFunc = async (req, res, next) => {
     });
     } catch (error) {
         console.log(error)
+        next(new HttpException(422, error.message))
     }
   };
 
@@ -27,6 +29,7 @@ const getAllPositions = async (req, res, next) => {
       });
     } catch (error) {
       console.log(error);
+      next(new HttpException(422, error.message))
     }
   };
   const getPositionsById = async (req, res, next) => {
@@ -42,6 +45,7 @@ const getAllPositions = async (req, res, next) => {
       });
     } catch (error) {
       console.log(error);
+      next(new HttpException(422, error.message))
     }
   };
 
@@ -59,6 +63,7 @@ const getAllPositions = async (req, res, next) => {
     });
    } catch (error) {
     console.log(error)
+    next(new HttpException(422, error.message))
    }
   };
 
@@ -74,6 +79,7 @@ const getAllPositions = async (req, res, next) => {
       res.status(404).json(positions);
     } catch (error) {
       console.log(error);
+      next(new HttpException(422, error.message))
     }
 }
 

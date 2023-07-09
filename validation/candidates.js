@@ -1,5 +1,6 @@
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
+const HttpException = require("../validation/http-exception");
 
 const checkCandidateExists = async(req,res,next)=> {
     const candidateName = req.body.candidateName;
@@ -12,11 +13,7 @@ const checkCandidateExists = async(req,res,next)=> {
     }) 
 
     if (candidate) {
-        return res.status(422).json(
-            {
-                Message: "Candidate has registerd alredy"
-            }
-        );
+        return       next(new HttpException(422, error.message))
         
     }
     else{

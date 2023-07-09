@@ -1,5 +1,6 @@
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
+
 const addVoting = async (req, res, next) => {
   try {
     const data = req.body;

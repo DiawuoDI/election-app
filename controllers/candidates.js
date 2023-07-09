@@ -2,6 +2,7 @@
 const {PrismaClient} =require('@prisma/client')
 const prisma = new PrismaClient();
 const cloudinary = require("../uitls/cloudinary");
+const HttpException = require("../validation/http-exception");
 
 
 const createCandidateFunc = async (req, res, next) => {
@@ -29,9 +30,7 @@ const createCandidateFunc = async (req, res, next) => {
     });
   } catch (error) {
     console.log(error);
-    res.status(400).json({
-      message: error.message,
-    });
+    next(new HttpException(422, error.message))
   }
   };
 
@@ -47,6 +46,7 @@ const createCandidateFunc = async (req, res, next) => {
     });
     } catch (error) {
         console.log(error)
+        next(new HttpException(422, error.message))
     }
   };
 
@@ -64,6 +64,7 @@ const createCandidateFunc = async (req, res, next) => {
     });
     } catch (error) {
         console.log(error)
+        next(new HttpException(422, error.message))
     }
     }
   const updateCandidateFunc = async (req, res, next) => {
@@ -81,6 +82,7 @@ const createCandidateFunc = async (req, res, next) => {
     });
    } catch (error) {
     console.log(error)
+    next(new HttpException(422, error.message))
    }
   };
 
@@ -96,6 +98,7 @@ const createCandidateFunc = async (req, res, next) => {
       res.json(candidate);
     } catch (error) {
       console.log(error);
+      next(new HttpException(422, error.message))
     }
 }
 const  removeCandidateById = async(req,res,next)=>{
@@ -110,6 +113,7 @@ const  removeCandidateById = async(req,res,next)=>{
       res.status(404).json(candidate);
     } catch (error) {
       console.log(error);
+      next(new HttpException(422, error.message))
     }
 }
   

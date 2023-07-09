@@ -1,5 +1,6 @@
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
+const HttpException = require("../validation/http-exception");
 
 const checkVoteExists = async (req, res, next) => {
   const voterId = req.body.voterId;
@@ -13,9 +14,8 @@ const checkVoteExists = async (req, res, next) => {
     },
   });
   if (voter) {
-    return res.status(422).json({
-      message: "vote already exists",
-    });
+    return       next(new HttpException(422, error.message))
+
   } else {
     next();
   }

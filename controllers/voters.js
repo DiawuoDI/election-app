@@ -1,7 +1,8 @@
 const { PrismaClient } = require("@prisma/client");
 const { signToken } = require("../uitls/token");
-
+const HttpException = require("../validation/http-exception");
 const prisma = new PrismaClient();
+
 const login = async (req, res, next) => {
   try {
     const email = req.body.email;
@@ -25,9 +26,7 @@ const login = async (req, res, next) => {
     }
   } catch (error) {
     console.log(error);
-    res.status(400).json({
-      message: error.message,
-    });
+      next(new HttpException(422, error.message))
   }
 };
 const createVoter = async (req, res, next) => {
@@ -54,9 +53,8 @@ const getAllVoters = async (req, res, next) => {
     });
   } catch (error) {
     console.log(error);
-    res.status(400).json({
-      message: error.message,
-    });
+    next(new HttpException(422, error.message))
+
   }
 };
 const getVotersById = async (req, res, next) => {
@@ -70,9 +68,7 @@ const getVotersById = async (req, res, next) => {
     res.status(200).json(voter);
   } catch (error) {
     console.log(error);
-    res.status(400).json({
-      message: error.message,
-    });
+    next(new HttpException(422, error.message))
   }
 };
 const updateVoter = async (res, req, next) => {
@@ -90,11 +86,10 @@ const updateVoter = async (res, req, next) => {
     });
   } catch (error) {
     console.log(error);
-    res.status(400).json({
-      message: error.message,
-    });
+    next(new HttpException(422, error.message))
   }
 };
+
 const deleteVoter = async (req, res, next) => {
   const studentId = req.params.studentId;
   try {
@@ -114,9 +109,7 @@ const deleteVoter = async (req, res, next) => {
     }
   } catch (error) {
     console.log(error);
-    res.status(500).json({
-      message: "An error occurred",
-    });
+    next(new HttpException(422, error.message))
   }
 };
 module.exports = {
